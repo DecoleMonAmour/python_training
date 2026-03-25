@@ -7,22 +7,19 @@ import unittest
 from contact import Contact
 
 
-class UntitledTestCase(unittest.TestCase):
-    def setUp(self):
+class TestAddContact(unittest.TestCase):
+    def setUp(self):  # браузер запускается, фикстура создается
         self.wd = webdriver.Firefox()
         self.wd.implicitly_wait(30)
         self.verificationErrors = []
         self.accept_next_alert = True
 
-    def test_untitled_test_case(self):
+    def test_add_contact(self):
         wd = self.wd
-        self.open_home_page(wd)
         self.login(wd)
-        self.open_add_contact_page(wd)
         self.create_contact(wd, Contact(firstname="Ivan", middlename="Ivanovich", lastname="Ivanov",
                        address="Somewhere over the rainbow", email="ivanivanov@ivan.com", bday="1", bmonth="January",
                        byear="2000"))
-        self.return_to_home_page(wd)
         self.logout(wd)
 
     def logout(self, wd):
@@ -32,6 +29,7 @@ class UntitledTestCase(unittest.TestCase):
         wd.find_element("link text", "home").click()
 
     def create_contact(self, wd, contact):
+        self.open_add_contact_page(wd)
         # fill contact name
         wd.find_element("name", "firstname").click()
         wd.find_element("name", "firstname").clear()
@@ -64,11 +62,13 @@ class UntitledTestCase(unittest.TestCase):
         wd.find_element("name", "byear").send_keys(contact.byear)
         # submit contact creation
         wd.find_element("name", "theform").submit()
+        self.return_to_home_page(wd)
 
     def open_add_contact_page(self, wd):
         wd.find_element("link text", "add new").click()
 
     def login(self, wd):
+        self.open_home_page(wd)
         wd.find_element("name", "user").click()
         wd.find_element("name", "user").clear()
         wd.find_element("name", "user").send_keys("admin")
@@ -106,7 +106,7 @@ class UntitledTestCase(unittest.TestCase):
         finally:
             self.accept_next_alert = True
 
-    def tearDown(self):
+    def tearDown(self):  # браузер закрывается, фикстура разрушается
         self.wd.quit()
         self.assertEqual([], self.verificationErrors)
 
