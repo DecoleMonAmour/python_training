@@ -1,14 +1,5 @@
 # -*- coding: utf-8 -*-
 from model.group import Group
-from fixture.application import Application
-import pytest
-
-
-@pytest.fixture()
-def app(request):
-    fixture = Application()  # создает фикстуру (объект типа Application)
-    request.addfinalizer(fixture.destroy)  # указание на то, как эта фикстура должна быть разрушена
-    return fixture
 
 
 def test_add_group(app):  # тестовый метод, принимающий в качестве параметра фикстуру и вызывающий в ней вспомогательные методы
