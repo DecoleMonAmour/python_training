@@ -39,3 +39,24 @@ class GroupHelper:
         # submit deletion
         wd.find_element("name", "delete").click()
         self.return_to_groups_page()
+
+    def edit_first_group(self, group):
+        wd = self.app.wd
+        self.open_groups_page()
+        # select first group
+        wd.find_element("name", "selected[]").click()
+        # submit edition
+        wd.find_element("name", "edit").click()
+        # fill group firm
+        wd.find_element("name", "group_name").click()
+        wd.find_element("name", "group_name").clear()
+        wd.find_element("name", "group_name").send_keys(group.name)
+        wd.find_element("name", "group_header").click()
+        wd.find_element("name", "group_header").clear()
+        wd.find_element("name", "group_header").send_keys(group.header)
+        wd.find_element("name", "group_footer").click()
+        wd.find_element("name", "group_footer").clear()
+        wd.find_element("name", "group_footer").send_keys(group.footer)
+        # submit edition
+        wd.find_element("name", "update").click()
+        self.return_to_groups_page()
