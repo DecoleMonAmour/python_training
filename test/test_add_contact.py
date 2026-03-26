@@ -10,9 +10,10 @@ def app(request):
     request.addfinalizer(fixture.destroy)  # указание на то, как эта фикстура должна быть разрушена
     return fixture
 
+
 def test_add_contact(app):
-    app.login(username="admin", password="secret")
-    app.create_contact(Contact(firstname="Ivan", middlename="Ivanovich", lastname="Ivanov",
-                   address="Somewhere over the rainbow", email="ivanivanov@ivan.com", bday="1", bmonth="January",
-                   byear="2000"))
-    app.logout()
+    app.session.login(username="admin", password="secret")
+    app.contact.create(Contact(firstname="Ivan", middlename="Ivanovich", lastname="Ivanov",
+                               address="Somewhere over the rainbow", email="ivanivanov@ivan.com", bday="1", bmonth="January",
+                               byear="2000"))
+    app.session.logout()

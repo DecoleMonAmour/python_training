@@ -1,7 +1,7 @@
 from selenium import webdriver
-from selenium.webdriver.support.select import Select
 from fixture.session import SessionHelper
 from fixture.group import GroupHelper
+from fixture.contact import ContactHelper
 
 
 class Application:
@@ -11,8 +11,7 @@ class Application:
         self.wd.implicitly_wait(30)
         self.session = SessionHelper(self)
         self.group = GroupHelper(self)
-
-
+        self.contact = ContactHelper(self)
 
     def open_home_page(self):
         wd = self.wd
@@ -20,47 +19,6 @@ class Application:
 
     def destroy(self):
         self.wd.quit()
-
-    def create_contact(self, contact):
-        wd = self.wd
-        self.open_add_contact_page()
-        # fill contact name
-        wd.find_element("name", "firstname").click()
-        wd.find_element("name", "firstname").clear()
-        wd.find_element("name", "firstname").send_keys(contact.firstname)
-        # fill contact middlename
-        wd.find_element("name", "middlename").click()
-        wd.find_element("name", "middlename").clear()
-        wd.find_element("name", "middlename").send_keys(contact.middlename)
-        # fill contact lastname
-        wd.find_element("name", "lastname").click()
-        wd.find_element("name", "lastname").clear()
-        wd.find_element("name", "lastname").send_keys(contact.lastname)
-        # fill address
-        wd.find_element("name", "address").click()
-        wd.find_element("name", "address").clear()
-        wd.find_element("name", "address").send_keys(contact.address)
-        # fill e-mail
-        wd.find_element("name", "email").click()
-        wd.find_element("name", "email").clear()
-        wd.find_element("name", "email").send_keys(contact.email)
-        # fill birthday
-        wd.find_element("name", "bday").click()
-        Select(wd.find_element("name", "bday")).select_by_visible_text(contact.bday)
-        # wd.find_element("xpath", "//option[@value='1']").click()
-        wd.find_element("name", "bmonth").click()
-        Select(wd.find_element("name", "bmonth")).select_by_visible_text(contact.bmonth)
-        # wd.find_element("xpath", "//option[@value='January']").click()
-        wd.find_element("name", "byear").click()
-        wd.find_element("name", "byear").clear()
-        wd.find_element("name", "byear").send_keys(contact.byear)
-        # submit contact creation
-        wd.find_element("name", "theform").submit()
-        self.return_to_home_page()
-
-    def open_add_contact_page(self):
-        wd = self.wd
-        wd.find_element("link text", "add new").click()
 
     def return_to_home_page(self):
         wd = self.wd
